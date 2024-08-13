@@ -1,2 +1,2 @@
 # portafolio-web-animador3d
-Portafolio Web para Animador 3D: Un escaparate digital donde muestro mis proyectos de animación en 3D.
+Portafolio Web para Animador 3D:  Un escaparate digital donde muestro mis proyectos de animación en 3D, destacando mi experiencia y habilidades en modelado, texturización, rigging y animación. Aquí podrás explorar mi trabajo y colaborar en futuros proyectos creativos.
