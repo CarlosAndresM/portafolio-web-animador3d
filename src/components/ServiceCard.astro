@@ -1,0 +1,11 @@
+---
+const { title, img, description, modelUrl, onClick } = Astro.props;
+---
+
+<div class='content-services' onClick={() => onClick(modelUrl)}>
+  <div class="img-content">
+    <img src={img} alt={title} />
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</div>

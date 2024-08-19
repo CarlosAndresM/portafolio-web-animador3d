@@ -1,0 +1,218 @@
+---
+const servicesURL = 'https://raw.githubusercontent.com/CarlosAndresM/blender-respository-test/main/blender-repository.json';
+---
+
+<section id="services">
+  <h2>Services</h2>
+  <div id="servicesContent"></div>
+</section>
+  
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const servicesContent = document.getElementById('servicesContent');
+      const baseURL = 'https://raw.githubusercontent.com/CarlosAndresM/blender-respository-test/main/';
+  
+      try {
+        // Obtener la lista de proyectos
+        const response = await fetch('https://raw.githubusercontent.com/CarlosAndresM/blender-respository-test/main/blender-repository.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+  
+        // Iterar sobre cada proyecto
+        if (data.projects && data.projects.length > 0) {
+          for (const project of data.projects) {
+            // Construir la URL para info.json
+            const infoURL = `${baseURL}${project.name}/info.json`;
+            const infoResponse = await fetch(infoURL);
+            if (!infoResponse.ok) {
+              console.error(`Error fetching info for project ${project.name}: ${infoResponse.status}`);
+              continue; // Pasar al siguiente proyecto en caso de error
+            }
+            const info = await infoResponse.json();
+  
+            // Construir la URL para la imagen
+            const imgURL = `${baseURL}${project.name}/${project.img}`;
+  
+            // Agregar el contenido al HTML
+            servicesContent.innerHTML += `
+            <div class='content-services'>
+                <div class="img-content">
+                    <img src="${imgURL}" alt="${info.title}" />
+                </div>
+                <div class="text">
+                <h3>${info.title}</h3>
+                <p>${info.description}</p>
+                </div>
+            </div>
+`;
+
+          }
+        } else {
+          servicesContent.innerHTML = '<p>No services found.</p>';
+        }
+      } catch (error) {
+        console.error('Error fetching services:', error);
+        servicesContent.innerHTML = '<p>Failed to load services.</p>';
+      }
+    });
+  </script>
+
+<style is:global>    
+    * {
+      box-sizing: border-box;
+    }
+  
+    #services {
+      padding: 5rem 9%; 
+      display: flex;
+      flex-direction: column;
+    }
+  
+    #services h2 {
+      font-size: 4rem;
+      margin-bottom: 6rem;
+      color: #b74b4b;
+      text-align: center;
+    }
+  
+    #services .content-services {
+      display: flex; 
+      align-items: center;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
+      background-color: #333; /* Fondo para cada servicio */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 500px;
+    }
+  
+    #services .content-services:hover {
+      cursor: pointer;
+      transform: scale(1.01);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+  
+    .img-content {
+      flex-shrink: 0;
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-right: 1rem;
+    }
+  
+    .img-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+  
+    .content-services h3 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+  
+    .content-services p {
+      font-size: 1.6rem;
+      color: #ccc;
+    }
+  
+    #servicesContent {
+      display: flex;
+      gap: 2rem; /* Espacio entre los elementos */
+      align-items: center;
+      justify-content: center;
+      background-color: transparent; /* Eliminar fondo rojo */    
+      flex-wrap: wrap;
+    }
+  
+    .text {
+      margin-top: -40px;
+      text-align: start;
+      padding-right: 1rem;
+    }
+  
+    .text h2 {
+      margin: 0;
+      padding: 0;
+    }
+
+    
+    /* Media Queries */
+    @media (min-width: 1152px) {
+      #servicesContent {
+        flex-wrap: wrap; /* Activar flex-wrap en pantallas mayores a 1152px */
+      }
+    }
+    
+  
+    @media (max-width: 500px) {
+
+        .content-services h3{
+            color: red;
+        }
+     }
+  
+    @media (max-width: 1000px) {
+      #servicesContent {
+      }
+      
+      .content-services {
+        text-align: center; /* Centra el texto */
+      }
+      
+      .img-content {
+        margin-bottom: 1rem; /* Añade margen abajo para separar la imagen del texto */
+      }
+      
+      .text {
+        margin-top: 0;
+      }
+    }
+  
+    @media (max-width: 976px) {
+      #servicesContent {
+        padding: 0 1rem; /* Reduce el padding en pantallas más pequeñas */
+        flex-direction: column;
+      }
+
+      
+      .text h2{
+        font-size: 6px;
+        background-color: red;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      #servicesContent {
+        /* Ajustes adicionales si es necesario */
+      }
+      
+      .content-services {
+        text-align: center; /* Centra el texto */
+      }
+      
+      .img-content {
+        margin-bottom: 1rem; /* Añade margen abajo para separar la imagen del texto */
+      }
+      
+      .text {
+        margin-top: -50px;
+      }
+
+      .content-services h3 {
+        font-size: 1.5rem; /* Reducir el tamaño del texto h3 en pantallas menores */
+      }
+
+      .content-services p {
+        font-size: 1.2rem; /* Reducir el tamaño del texto p en pantallas menores */
+      }
+    }
+
+  </style>
+  

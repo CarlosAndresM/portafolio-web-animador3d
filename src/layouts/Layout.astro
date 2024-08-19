@@ -3,51 +3,98 @@ import Instagram from '../../public/icons/Instagram.astro'
 import Github from '../../public/icons/Github.astro'
 import Linkedin from '../../public/icons/Linkedin.astro'
 import TwitterX from '../../public/icons/Twitter-x.astro'
- 
+import Services from '../components/Services.astro'
 ---
-
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> 
-		<title>Camilo Muñoz</title>
-	</head>
-	<body>
-		<header>
-			<a href="#" class="logo">Camilo</a>
-			<nav>
-				<a href="#" class="active">Home</a>
-				<a href="#">Services</a>
-				<a href="#">Skills</a>
-				<a href="#">Education</a>
-				<a href="#">Experience</a>
-				<a href="#">Contact</a>
-			</nav>
-		</header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="/styles/global.css"> <!-- Asegúrate de incluir los estilos -->
+    <title>Camilo Muñoz</title>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">Camilo</a>
+        <nav>
+            <a href="#home" class="active">Home</a>
+            <a href="#services">Services</a>
+            <a href="#skills">Skills</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
 
-		<section class="home" >
-			<div class="home-img">
-				<img src="/main.jpg" alt="">
-			</div>
-			<div class="home-content">
-				<h1>Hi, It's <span>Camilo</span> </h1>
-				<h3 class="typing-text">I`m a <span></span> </h3>
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus labore dolores esse. Odit similique doloribus tenetur doloremque, sunt commodi in ipsa repudiandae debitis deleniti blanditiis quibusdam quaerat neque asperiores ea.</p>
-				<div class="social-icons">
-					<a href="#"><Instagram></a> 
-					<a href="#"><Github></a> 
-					<a href="#"><TwitterX></a> 
-					<a href="#"><Linkedin></a> 
+    <section id="home" class="home">
+        <div class="home-img">
+            <img src="/main.jpg" alt="">
+        </div>
+        <div class="home-content">
+            <h1>Hi, It's <span>Camilo</span> </h1>
+            <h3 class="typing-text">I`m a <span></span> </h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus labore dolores esse. Odit similique doloribus tenetur doloremque, sunt commodi in ipsa repudiandae debitis deleniti blanditiis quibusdam quaerat neque asperiores ea.</p>
+            <div class="social-icons">
+                <a href="#"><Instagram></a> 
+                <a href="#"><Github></a> 
+                <a href="#"><TwitterX></a> 
+                <a href="#"><Linkedin></a> 
+            </div>
+            <a href="#" class="btn">Hire me</a>
+        </div>    
+    </section>
 
-				</div>
-				<a href="#" class="btn">Hire me</a>
-			</div>	
-		</section>
+    <Services />
 
-	</body>
+    <section id="skills">
+        <h2>Skills</h2>
+        <!-- Contenido de Skills -->
+    </section>
+    
+    <section id="education">
+        <h2>Education</h2>
+        <!-- Contenido de Education -->
+    </section>
+ 
+    <section id="contact">
+        <h2>Contact</h2>
+        <!-- Contenido de Contact -->
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", ()=>{
+        const logo = document.querySelector('.logo');
+
+        // OCultar el logo cuando se haga Scroll
+        window.addEventListener('scroll', () => {
+          if(window.scrollY > 0 ) {
+            logo.style.color = 'transparent';
+          } else {
+            logo.style.color = '#b74b4b';
+          }
+        });
+
+        // Configurar el desplazamiento suave para los enlaces
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Eliminar la clase 'active' de todos los enlaces
+            document.querySelectorAll('nav a[href^="#"]').forEach(a => a.classList.remove('active'));  
+            anchor.classList.add('active');
+
+            // Configurar el desplazamiento suave para los enlaces
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+              behavior: 'smooth'
+            });
+          });
+        });
+      });
+    </script>
+</body>
 </html>
+
+
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
 
@@ -156,7 +203,8 @@ import TwitterX from '../../public/icons/Twitter-x.astro'
 		justify-content: center;
 		align-items: center;
 		gap: 8rem;
-		background-color: black
+		background-color: black;  
+
 	}
 
 	.home .home-content h1{
@@ -288,6 +336,7 @@ import TwitterX from '../../public/icons/Twitter-x.astro'
 		.home{
 			gap: 4rem;
 		}
+		
 	}
 
 	@media(max-width:995px){
@@ -307,10 +356,46 @@ import TwitterX from '../../public/icons/Twitter-x.astro'
 			width: 70vw;
 			margin-top: 4rem;
 		}
-	}
+	} 
 
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
 
-	
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  height: 80%;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+}	
 
 </style>

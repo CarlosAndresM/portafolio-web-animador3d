@@ -1,0 +1,52 @@
+---
+const { isOpen, onClose, modelUrl } = Astro.props;
+---
+
+{isOpen && (
+  <div class='modal' id='model-modal'>
+    <div class='modal-content'>
+      <span class='close' onClick={onClose}>&times;</span>
+      <div id='model-viewer' style={{ width: '100%', height: '100%' }}></div>
+    </div>
+  </div>
+)}
+<script type="module">
+  import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
+  import { OBJLoader } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/OBJLoader.js';
+  import { OrbitControls } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('model-viewer');
+    const modelUrl = '{modelUrl}'; // Asegúrate de que esto sea una URL válida
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+    camera.position.z = 5;
+
+    const loader = new OBJLoader();
+    loader.load(modelUrl, (object) => {
+      scene.add(object);
+      object.scale.set(1, 1, 1);
+      animate();
+    }, undefined, (error) => {
+      console.error('An error happened while loading the model:', error);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  });
+</script>
